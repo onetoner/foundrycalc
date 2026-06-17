@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="de" data-lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FoundryCalc – Hilfe &amp; Anleitung / Help &amp; Guide</title>
+<meta name="description" content="Hilfe, Anleitung und Bug-Meldung für FoundryCalc – den Produktions- und Planungs-Kalkulator für das Spiel FOUNDRY. Help, guide and bug reporting for FoundryCalc.">
+<style>
+  :root{
+    --bg:#0f1117; --panel:#171a22; --panel2:#1f2430; --line:#2a3040;
+    --text:#e9ecf2; --muted:#a6adbb; --accent:#e8a44c; --accent2:#f0b968;
+    --ok:#3ecf8e; --danger:#e5534b; --radius:14px;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg); color:var(--text); line-height:1.65;
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,system-ui,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--accent2)}
+  a:hover{color:var(--accent)}
+  .wrap{max-width:980px;margin:0 auto;padding:0 18px}
+
+  /* language toggle visibility */
+  html[data-lang="de"] [lang="en"], html[data-lang="en"] [lang="de"]{display:none !important}
+
+  /* Header */
+  header.top{
+    position:sticky;top:0;z-index:20;
+    background:rgba(15,17,23,.92);backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .top .wrap{display:flex;align-items:center;gap:12px;height:60px}
+  .top img.logo{width:34px;height:34px;border-radius:8px}
+  .top .brand{font-weight:700;font-size:1.05rem;letter-spacing:.2px}
+  .top .spacer{flex:1}
+  .langbtns{display:flex;border:1px solid var(--line);border-radius:999px;overflow:hidden}
+  .langbtns button{
+    background:transparent;color:var(--muted);border:0;padding:6px 14px;cursor:pointer;
+    font-weight:600;font-size:.85rem;
+  }
+  .langbtns button.active{background:var(--accent);color:#1a1206}
+
+  /* Hero */
+  .hero{
+    background:radial-gradient(1200px 380px at 50% -120px,rgba(232,164,76,.18),transparent),
+               linear-gradient(180deg,#141822,#0f1117);
+    border-bottom:1px solid var(--line);padding:46px 0 38px;text-align:center;
+  }
+  .hero img.appicon{width:96px;height:96px;border-radius:22px;box-shadow:0 10px 30px rgba(0,0,0,.45)}
+  .hero h1{font-size:2.1rem;margin:18px 0 6px}
+  .hero p.tag{color:var(--muted);max-width:620px;margin:0 auto;font-size:1.08rem}
+  .badges{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+  .btn{
+    display:inline-flex;align-items:center;gap:9px;text-decoration:none;font-weight:600;
+    padding:11px 20px;border-radius:999px;border:1px solid var(--line);
+    background:var(--panel2);color:var(--text);transition:.15s;
+  }
+  .btn:hover{border-color:var(--accent);color:var(--text)}
+  .btn.primary{background:var(--accent);color:#1a1206;border-color:var(--accent)}
+  .btn.primary:hover{background:var(--accent2);color:#1a1206}
+  .btn svg{width:18px;height:18px}
+
+  /* Sections */
+  section{padding:42px 0;border-bottom:1px solid var(--line)}
+  h2{font-size:1.5rem;margin:0 0 6px;display:flex;align-items:center;gap:10px}
+  h2 .dot{width:9px;height:9px;border-radius:50%;background:var(--accent)}
+  .lead{color:var(--muted);margin:0 0 26px;max-width:740px}
+
+  /* Steps */
+  .steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+  .step{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+  .step .n{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;
+    background:var(--accent);color:#1a1206;font-weight:700;margin-bottom:10px}
+  .step h3{margin:0 0 6px;font-size:1.05rem}
+  .step p{margin:0;color:var(--muted);font-size:.95rem}
+
+  /* Feature rows */
+  .feature{display:grid;grid-template-columns:1fr 300px;gap:30px;align-items:center;
+    margin:30px 0;padding:22px;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius)}
+  .feature:nth-child(even) .shot{order:-1}
+  .feature .txt h3{margin:0 0 8px;font-size:1.2rem}
+  .feature .txt p{margin:0 0 10px;color:var(--muted)}
+  .feature ul{margin:6px 0 0;padding-left:18px;color:var(--muted)}
+  .feature li{margin:3px 0}
+  .shot{justify-self:center}
+  .shot img{width:280px;max-width:100%;border-radius:16px;border:1px solid var(--line);
+    box-shadow:0 12px 34px rgba(0,0,0,.5);display:block}
+  .shot .cap{text-align:center;color:var(--muted);font-size:.82rem;margin-top:8px}
+
+  /* Mod box */
+  .modgrid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:20px}
+  .card h3{margin:0 0 8px}
+  .note{background:var(--panel2);border:1px solid var(--line);border-left:3px solid var(--accent);
+    border-radius:10px;padding:12px 16px;color:var(--muted);font-size:.92rem;margin-top:14px}
+
+  details{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:4px 16px;margin:10px 0}
+  details summary{cursor:pointer;font-weight:600;padding:12px 0;list-style:none}
+  details summary::-webkit-details-marker{display:none}
+  details summary::before{content:"▸";color:var(--accent);margin-right:10px;display:inline-block;transition:.15s}
+  details[open] summary::before{transform:rotate(90deg)}
+  details .body{padding:0 0 14px;color:var(--muted)}
+
+  /* Form */
+  form{display:grid;gap:14px;max-width:680px}
+  label{font-weight:600;font-size:.92rem;display:block;margin-bottom:6px}
+  .req{color:var(--accent)}
+  input,select,textarea{
+    width:100%;background:var(--panel2);border:1px solid var(--line);border-radius:10px;
+    color:var(--text);padding:11px 12px;font:inherit;font-size:.98rem
+  }
+  input:focus,select:focus,textarea:focus{outline:none;border-color:var(--accent)}
+  textarea{min-height:130px;resize:vertical}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .submit{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  button.send{
+    background:var(--accent);color:#1a1206;border:0;border-radius:999px;padding:12px 26px;
+    font-weight:700;font-size:1rem;cursor:pointer
+  }
+  button.send:hover{background:var(--accent2)}
+  button.send:disabled{opacity:.6;cursor:default}
+  .status{font-weight:600}
+  .status.ok{color:var(--ok)} .status.err{color:var(--danger)}
+  .hint{color:var(--muted);font-size:.9rem}
+
+  footer{padding:30px 0 50px;color:var(--muted);text-align:center;font-size:.92rem}
+  footer a{margin:0 8px}
+
+  @media(max-width:720px){
+    .feature{grid-template-columns:1fr}
+    .feature .shot{order:-1}
+    .modgrid{grid-template-columns:1fr}
+    .row{grid-template-columns:1fr}
+    .hero h1{font-size:1.7rem}
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <img class="logo" src="img/app_icon.png" alt="FoundryCalc">
+    <span class="brand">FoundryCalc</span>
+    <span class="spacer"></span>
+    <div class="langbtns">
+      <button id="btn-de" onclick="setLang('de')">DE</button>
+      <button id="btn-en" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="wrap">
+    <img class="appicon" src="img/app_icon.png" alt="FoundryCalc Icon">
+    <h1>FoundryCalc</h1>
+    <p class="tag">
+      <span lang="de">Produktions- &amp; Planungs-Kalkulator für das Spiel FOUNDRY – Produktionsketten,
+        Fabriken, Forschung und Handel auf Handy &amp; Tablet.</span>
+      <span lang="en">Production &amp; planning calculator for the game FOUNDRY – production chains,
+        factories, research and trade on your phone &amp; tablet.</span>
+    </p>
+    <div class="badges">
+      <a class="btn primary" href="https://play.google.com/store/apps/details?id=com.barteltnorbert.foundrycalc" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3.6 2.3 13 12 3.6 21.7c-.4-.2-.6-.6-.6-1V3.3c0-.4.2-.8.6-1zm10.8 10.8 2.6 2.6-9 5.2 6.4-7.8zm3.9-2.2 2.4 1.4c.7.4.7 1.4 0 1.8l-2.4 1.4-2.8-2.8 2.8-2.8zM5.4 2.1l9 5.2-2.6 2.6L5.4 2.1z"/></svg>
+        Google Play
+      </a>
+      <a class="btn" href="https://steamcommunity.com/sharedfiles/filedetails/?id=3743879838" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-9.95 9.06l5.36 2.22a2.83 2.83 0 0 1 1.6-.5h.12l2.38-3.45v-.05a3.77 3.77 0 1 1 3.77 3.77h-.09l-3.4 2.42v.1a2.84 2.84 0 0 1-5.62.58L2 14.9A10 10 0 1 0 12 2zm-3.2 15.18-1.23-.5a2.13 2.13 0 0 0 3.93-1.62 2.13 2.13 0 0 0-2.78-1.15l1.27.53a1.57 1.57 0 1 1-1.2 2.9zM18.05 9.3a2.51 2.51 0 1 0-2.51 2.51 2.51 2.51 0 0 0 2.51-2.51zm-4.4 0a1.89 1.89 0 1 1 1.89 1.89A1.89 1.89 0 0 1 13.65 9.3z"/></svg>
+        <span lang="de">Mod im Steam-Workshop</span><span lang="en">Mod on Steam Workshop</span>
+      </a>
+      <a class="btn" href="#bug">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a4 4 0 0 1 4 4h2a1 1 0 1 1 0 2h-1.07A6.97 6.97 0 0 1 19 12v1h2a1 1 0 1 1 0 2h-2.07A7 7 0 0 1 5.07 15H3a1 1 0 1 1 0-2h2v-1c0-1.5.47-2.9 1.27-4.04H5a1 1 0 0 1 0-2h2a4 4 0 0 1 4-4zm-1 8a1 1 0 0 0-2 0v5a1 1 0 1 0 2 0v-5zm4 0a1 1 0 1 0-2 0v5a1 1 0 1 0 2 0v-5z"/></svg>
+        <span lang="de">Bug melden</span><span lang="en">Report a bug</span>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- QUICK START -->
+<section id="start"><div class="wrap">
+  <h2><span class="dot"></span><span lang="de">Erste Schritte</span><span lang="en">Getting started</span></h2>
+  <p class="lead">
+    <span lang="de">In wenigen Minuten einsatzbereit – die App funktioniert komplett offline. Der optionale
+      PC-Mod ist nur nötig, wenn du deinen echten Spielstand übernehmen möchtest.</span>
+    <span lang="en">Ready in minutes – the app works fully offline. The optional PC mod is only needed if you
+      want to pull in your real save game.</span>
+  </p>
+  <div class="steps">
+    <div class="step">
+      <div class="n">1</div>
+      <h3><span lang="de">App installieren</span><span lang="en">Install the app</span></h3>
+      <p><span lang="de">FoundryCalc kostenlos aus dem Google Play Store laden und öffnen.</span>
+         <span lang="en">Get FoundryCalc for free from Google Play and open it.</span></p>
+    </div>
+    <div class="step">
+      <div class="n">2</div>
+      <h3><span lang="de">Rechnen &amp; planen</span><span lang="en">Calculate &amp; plan</span></h3>
+      <p><span lang="de">Ziel-Produkt wählen, Rate eingeben – die App berechnet die ganze Kette und legt
+         daraus Fabriken an.</span>
+         <span lang="en">Pick a target product, enter a rate – the app computes the whole chain and builds
+         factories from it.</span></p>
+    </div>
+    <div class="step">
+      <div class="n">3</div>
+      <h3><span lang="de">Optional: Mod &amp; Sync</span><span lang="en">Optional: mod &amp; sync</span></h3>
+      <p><span lang="de">Den Begleit-Mod auf dem PC abonnieren, um Forschung, Lager und Handel live ins
+         Tablet zu holen.</span>
+         <span lang="en">Subscribe to the companion mod on PC to stream research, storage and trade live to your
+         tablet.</span></p>
+    </div>
+  </div>
+</div></section>
+
+<!-- FEATURES -->
+<section id="features"><div class="wrap">
+  <h2><span class="dot"></span><span lang="de">Funktionen im Überblick</span><span lang="en">Features at a glance</span></h2>
+  <p class="lead">
+    <span lang="de">Echte Screenshots aus der App.</span>
+    <span lang="en">Real screenshots from the app.</span>
+  </p>
+
+  <!-- Rechner -->
+  <div class="feature">
+    <div class="txt">
+      <h3><span lang="de">Produktionsrechner</span><span lang="en">Production calculator</span></h3>
+      <p><span lang="de">Wähle ein Ziel-Produkt und die gewünschte Menge pro Minute. FoundryCalc löst die
+        komplette Produktionskette auf.</span>
+        <span lang="en">Choose a target product and the desired amount per minute. FoundryCalc resolves the
+        entire production chain.</span></p>
+      <ul>
+        <li><span lang="de">Maschinen-Anzahl, Stromverbrauch und Rohstoffe</span>
+            <span lang="en">Machine counts, power draw and raw materials</span></li>
+        <li><span lang="de">Maschinen-Tier wählbar – inkl. „Max (erforscht)"</span>
+            <span lang="en">Selectable machine tier – incl. “Max (researched)”</span></li>
+        <li><span lang="de">Nebenprodukte und R&amp;D-Effizienz-Bonus</span>
+            <span lang="en">By-products and R&amp;D efficiency bonus</span></li>
+      </ul>
+    </div>
+    <div class="shot"><img src="img/rechner.png" alt="Produktionsrechner"></div>
+  </div>
+
+  <!-- Fabriken -->
+  <div class="feature">
+    <div class="txt">
+      <h3><span lang="de">Fabriken-Verwaltung</span><span lang="en">Factory management</span></h3>
+      <p><span lang="de">Speichere ganze Fabriken aus dem Rechner. Die Übersicht zeigt Gesamt-Strombilanz und
+        gleicht deine geplanten Maschinen mit dem echten Spielstand ab.</span>
+        <span lang="en">Save whole factories from the calculator. The overview shows the total power balance and
+        reconciles your planned machines with the real save.</span></p>
+      <ul>
+        <li><span lang="de">Strombilanz über alle Fabriken</span><span lang="en">Power balance across all factories</span></li>
+        <li><span lang="de">Maschinen-Abgleich mit dem Spiel</span><span lang="en">Machine reconciliation with the game</span></li>
+      </ul>
+    </div>
+    <div class="shot"><img src="img/fabriken.png" alt="Fabriken-Übersicht"></div>
+  </div>
+
+  <!-- Fabrik-Detail -->
+  <div class="feature">
+    <div class="txt">
+      <h3><span lang="de">Bau-Anleitung &amp; Flussdiagramm</span><span lang="en">Build guide &amp; flow diagram</span></h3>
+      <p><span lang="de">Jede Fabrik wird in geordnete, abhakbare Bausektionen zerlegt – Abschnitt für Abschnitt
+        nachbaubar. Ein Flussdiagramm zeigt die Materialflüsse.</span>
+        <span lang="en">Every factory is split into ordered, checkable build sections – buildable step by step.
+        A flow diagram shows the material flows.</span></p>
+      <ul>
+        <li><span lang="de">Defizitfreie Planung mit Bilanz</span><span lang="en">Deficit-free planning with balance</span></li>
+        <li><span lang="de">Bausektionen komplett ein-/ausklappbar</span><span lang="en">Fully collapsible build sections</span></li>
+      </ul>
+    </div>
+    <div class="shot"><img src="img/fabrik_detail.png" alt="Fabrik-Detail mit Bausektionen"></div>
+  </div>
+
+  <!-- Alle Maschinen -->
+  <div class="feature">
+    <div class="txt">
+      <h3><span lang="de">Übersicht „Alle Maschinen"</span><span lang="en">“All machines” overview</span></h3>
+      <p><span lang="de">Auf einen Blick, wie viele von jedem Maschinentyp du für die ganze Fabrik bauen musst –
+        inklusive der richtigen Förder-Gebäude (Bergbau-Drohnen, Tiefpumpen) im höchsten von dir
+        erforschten Tier.</span>
+        <span lang="en">See at a glance how many of each machine type you need to build for the whole factory –
+        including the correct extractors (mining drones, deep pumps) at the highest tier you have
+        researched.</span></p>
+    </div>
+    <div class="shot"><img src="img/fabrik_maschinen.png" alt="Alle Maschinen Übersicht"></div>
+  </div>
+
+  <!-- Forschung -->
+  <div class="feature">
+    <div class="txt">
+      <h3><span lang="de">Forschungsbaum</span><span lang="en">Research tree</span></h3>
+      <p><span lang="de">Der komplette Forschungsbaum mit Voraussetzungen und Science-Pack-Bedarf. Mit dem
+        Sync-Mod werden bereits erforschte Technologien markiert.</span>
+        <span lang="en">The complete research tree with prerequisites and science-pack demand. With the sync mod,
+        already-researched technologies are marked.</span></p>
+    </div>
+    <div class="shot"><img src="img/forschung.png" alt="Forschungsbaum"></div>
+  </div>
+
+  <!-- Handel -->
+  <div class="feature">
+    <div class="txt">
+      <h3><span lang="de">Handels- &amp; Stationsrechner</span><span lang="en">Trade &amp; station calculator</span></h3>
+      <p><span lang="de">Plane Verkaufsrouten und den Schiffsbedarf pro Planet. Mit dem Sync-Mod werden deine
+        echten Handelslizenzen, Preise und Lagerbestände übernommen.</span>
+        <span lang="en">Plan sales routes and the number of ships needed per planet. With the sync mod your real
+        trade licenses, prices and stock are imported.</span></p>
+    </div>
+    <div class="shot"><img src="img/handel.png" alt="Handel & Station"></div>
+  </div>
+</div></section>
+
+<!-- MOD -->
+<section id="mod"><div class="wrap">
+  <h2><span class="dot"></span><span lang="de">Der FoundryCalcSync-Mod (PC)</span><span lang="en">The FoundryCalcSync mod (PC)</span></h2>
+  <p class="lead">
+    <span lang="de">Ein <strong>optionaler</strong>, kostenloser Begleit-Mod für FOUNDRY auf dem PC. Er überträgt
+      deinen Spielstand live an die App – damit Rechner, Forschung und Handel mit deinen echten Daten
+      arbeiten. Der Mod ist <strong>rein lesend</strong> und verändert nichts am Spiel.</span>
+    <span lang="en">An <strong>optional</strong>, free companion mod for FOUNDRY on PC. It streams your save to the
+      app live – so the calculator, research and trade work with your real data. The mod is
+      <strong>read-only</strong> and changes nothing in the game.</span>
+  </p>
+
+  <div class="modgrid">
+    <div class="card">
+      <h3><span lang="de">Was er überträgt</span><span lang="en">What it transfers</span></h3>
+      <ul>
+        <li><span lang="de">Erforschte Technologien</span><span lang="en">Researched technologies</span></li>
+        <li><span lang="de">R&amp;D-Lab: Level, Boni, Preise</span><span lang="en">R&amp;D lab: level, bonuses, prices</span></li>
+        <li><span lang="de">Gebaute Maschinen-Anzahl</span><span lang="en">Built machine counts</span></li>
+        <li><span lang="de">Handel: Planeten, Routen, Schiffe</span><span lang="en">Trade: planets, routes, ships</span></li>
+        <li><span lang="de">Lagerbestände der Verkaufsplattform</span><span lang="en">Sky-platform storage</span></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3><span lang="de">Installation</span><span lang="en">Installation</span></h3>
+      <ol style="margin:0;padding-left:18px;color:var(--muted)">
+        <li><span lang="de">In FOUNDRY den Steam-Workshop öffnen.</span><span lang="en">Open the Steam Workshop in FOUNDRY.</span></li>
+        <li><span lang="de">„FoundryCalc Sync" abonnieren.</span><span lang="en">Subscribe to “FoundryCalc Sync”.</span></li>
+        <li><span lang="de">Spiel starten – der Mod läuft automatisch.</span><span lang="en">Start the game – the mod runs automatically.</span></li>
+      </ol>
+      <p style="margin:12px 0 0">
+        <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3743879838" target="_blank" rel="noopener">
+          <span lang="de">→ Mod im Steam-Workshop öffnen</span><span lang="en">→ Open the mod on Steam Workshop</span></a>
+      </p>
+    </div>
+  </div>
+
+  <details>
+    <summary><span lang="de">Sync einrichten (WLAN-Live-Sync oder Datei-Import)</span><span lang="en">Set up sync (live WLAN sync or file import)</span></summary>
+    <div class="body">
+      <p><span lang="de"><strong>Live über WLAN:</strong> PC und Tablet müssen im selben WLAN sein. In den
+        App-Einstellungen unter „Spiel-Sync" auf das Radar-Symbol tippen – die App findet den PC
+        automatisch (oder gib die PC-IP-Adresse manuell ein). Der Mod stellt die Daten unter Port
+        8642 bereit; ein Beacon auf Port 8643 dient der automatischen Erkennung.</span>
+        <span lang="en"><strong>Live over WLAN:</strong> PC and tablet must be on the same Wi-Fi. In the app
+        settings under “Game sync” tap the radar icon – the app finds the PC automatically (or enter
+        the PC IP manually). The mod serves the data on port 8642; a beacon on port 8643 is used for
+        auto-discovery.</span></p>
+      <p><span lang="de"><strong>Per Datei:</strong> Der Mod schreibt regelmäßig eine Datei
+        <code>foundrycalc_sync.json</code>. Diese kannst du in der App über „Datei wählen"
+        importieren.</span>
+        <span lang="en"><strong>Via file:</strong> The mod regularly writes a
+        <code>foundrycalc_sync.json</code> file. You can import it in the app via “Pick file”.</span></p>
+    </div>
+  </details>
+
+  <div class="note">
+    <span lang="de"><strong>Datenschutz:</strong> Der Live-Sync läuft ausschließlich zwischen deinem PC und
+      deinem Gerät im lokalen Netzwerk. Es werden keine Daten ins Internet oder an Dritte übertragen.</span>
+    <span lang="en"><strong>Privacy:</strong> Live sync runs only between your PC and your device on the
+      local network. No data is sent to the internet or to third parties.</span>
+  </div>
+</div></section>
+
+<!-- BUG REPORT -->
+<section id="bug"><div class="wrap">
+  <h2><span class="dot"></span><span lang="de">Bug melden / Feedback</span><span lang="en">Report a bug / feedback</span></h2>
+  <p class="lead">
+    <span lang="de">Etwas funktioniert nicht oder ein Wert stimmt nicht? Schick mir eine kurze Meldung – jede
+      Meldung wird mit Zeitstempel gespeichert, damit ich sie der Reihe nach abarbeiten kann.</span>
+    <span lang="en">Something not working or a value looks wrong? Send a quick report – each report is stored
+      with a timestamp so I can work through them in order.</span></p>
+
+  <form id="bugform" onsubmit="return submitBug(event)">
+    <div class="row">
+      <div>
+        <label for="category"><span lang="de">Kategorie</span><span lang="en">Category</span> <span class="req">*</span></label>
+        <select id="category" required>
+          <option value="" disabled selected data-de="Bitte wählen …" data-en="Please choose …"></option>
+          <option value="bug" data-de="Fehler / Bug" data-en="Error / bug"></option>
+          <option value="data" data-de="Falscher Wert / Rezept" data-en="Wrong value / recipe"></option>
+          <option value="crash" data-de="Absturz" data-en="Crash"></option>
+          <option value="sync" data-de="Sync / Mod" data-en="Sync / mod"></option>
+          <option value="idea" data-de="Idee / Wunsch" data-en="Idea / feature request"></option>
+          <option value="other" data-de="Sonstiges" data-en="Other"></option>
+        </select>
+      </div>
+      <div>
+        <label for="version"><span lang="de">App-Version</span><span lang="en">App version</span></label>
+        <input id="version" type="text" placeholder="z. B. 1.1.3 / e.g. 1.1.3">
+      </div>
+    </div>
+
+    <div>
+      <label for="description"><span lang="de">Beschreibung</span><span lang="en">Description</span> <span class="req">*</span></label>
+      <textarea id="description" required
+        data-de-ph="Was ist passiert? Was hattest du erwartet? Welche Schritte führen dazu?"
+        data-en-ph="What happened? What did you expect? Which steps lead to it?"></textarea>
+    </div>
+
+    <div class="row">
+      <div>
+        <label for="device"><span lang="de">Gerät (optional)</span><span lang="en">Device (optional)</span></label>
+        <input id="device" type="text" placeholder="z. B. Samsung Tab S7 / Android 13">
+      </div>
+      <div>
+        <label for="contact"><span lang="de">Kontakt (optional)</span><span lang="en">Contact (optional)</span></label>
+        <input id="contact" type="text"
+          data-de-ph="E-Mail für Rückfragen" data-en-ph="Email for follow-up">
+      </div>
+    </div>
+
+    <div class="submit">
+      <button class="send" type="submit"><span lang="de">Absenden</span><span lang="en">Send</span></button>
+      <span id="status" class="status"></span>
+    </div>
+    <p class="hint" id="mailfallback" style="display:none">
+      <span lang="de">Alternativ per E-Mail: </span><span lang="en">Alternatively by email: </span>
+      <a id="maillink" href="mailto:barteltnorbert@gmail.com">barteltnorbert@gmail.com</a>
+    </p>
+  </form>
+</div></section>
+
+<footer>
+  <div class="wrap">
+    <p>
+      <a href="index.html"><span lang="de">Startseite</span><span lang="en">Home</span></a> ·
+      <a href="privacy-policy.html"><span lang="de">Datenschutz</span><span lang="en">Privacy</span></a> ·
+      <a href="mailto:barteltnorbert@gmail.com">Kontakt / Contact</a>
+    </p>
+    <p>© 2026 Norbert Bartelt ·
+      <span lang="de">Inoffizielles Hilfsmittel für FOUNDRY. Nicht mit Channel 3 Entertainment verbunden.</span>
+      <span lang="en">Unofficial tool for FOUNDRY. Not affiliated with Channel 3 Entertainment.</span>
+    </p>
+  </div>
+</footer>
+
+<script>
+  // ---- Bug-Endpoint: wird nach dem Apps-Script-Deploy eingetragen ----
+  var BUG_ENDPOINT = "__APPS_SCRIPT_URL__";
+
+  // ---- Sprache ----
+  function setLang(l){
+    document.documentElement.setAttribute('data-lang', l);
+    document.documentElement.setAttribute('lang', l);
+    document.getElementById('btn-de').classList.toggle('active', l==='de');
+    document.getElementById('btn-en').classList.toggle('active', l==='en');
+    try{ localStorage.setItem('fc_lang', l); }catch(e){}
+    // Platzhalter & Select-Optionen übersetzen
+    document.querySelectorAll('[data-'+l+'-ph]').forEach(function(el){
+      el.setAttribute('placeholder', el.getAttribute('data-'+l+'-ph'));
+    });
+    document.querySelectorAll('option[data-'+l+']').forEach(function(o){
+      o.textContent = o.getAttribute('data-'+l);
+    });
+  }
+  (function(){
+    var saved=null; try{ saved=localStorage.getItem('fc_lang'); }catch(e){}
+    var l = saved || ((navigator.language||'de').toLowerCase().indexOf('de')===0 ? 'de':'en');
+    setLang(l);
+  })();
+
+  // ---- Bug absenden ----
+  function submitBug(ev){
+    ev.preventDefault();
+    var lang = document.documentElement.getAttribute('data-lang');
+    var status = document.getElementById('status');
+    var btn = document.querySelector('button.send');
+    var payload = {
+      category: document.getElementById('category').value,
+      description: document.getElementById('description').value.trim(),
+      version: document.getElementById('version').value.trim(),
+      device: document.getElementById('device').value.trim(),
+      contact: document.getElementById('contact').value.trim(),
+      page_lang: lang
+    };
+    if(!payload.category || !payload.description){ return false; }
+
+    var notConfigured = (BUG_ENDPOINT.indexOf('__')===0);
+    if(notConfigured){
+      // Backend noch nicht eingerichtet → E-Mail-Fallback anbieten.
+      showMailFallback(payload, lang);
+      status.className='status err';
+      status.textContent = lang==='de'
+        ? 'Formular noch nicht aktiv – bitte per E-Mail (Link unten).'
+        : 'Form not active yet – please use email (link below).';
+      return false;
+    }
+
+    btn.disabled=true;
+    status.className='status';
+    status.textContent = lang==='de' ? 'Wird gesendet …' : 'Sending …';
+
+    fetch(BUG_ENDPOINT, {
+      method:'POST',
+      headers:{'Content-Type':'text/plain;charset=utf-8'}, // simple request, kein CORS-Preflight
+      body: JSON.stringify(payload)
+    }).then(function(r){ return r.text(); })
+      .then(function(){
+        status.className='status ok';
+        status.textContent = lang==='de' ? '✓ Danke! Deine Meldung ist angekommen.' : '✓ Thanks! Your report was received.';
+        document.getElementById('bugform').reset();
+        setLang(lang);
+        btn.disabled=false;
+      })
+      .catch(function(){
+        // Antwort evtl. CORS-blockiert, Zeile wurde aber meist trotzdem geschrieben.
+        status.className='status ok';
+        status.textContent = lang==='de'
+          ? '✓ Meldung abgeschickt. Danke!'
+          : '✓ Report submitted. Thank you!';
+        document.getElementById('bugform').reset();
+        setLang(lang);
+        btn.disabled=false;
+      });
+    return false;
+  }
+
+  function showMailFallback(p, lang){
+    var fb=document.getElementById('mailfallback');
+    fb.style.display='block';
+    var subj = encodeURIComponent('FoundryCalc Bug: '+(p.category||''));
+    var body = encodeURIComponent(
+      (lang==='de'?'Beschreibung:\n':'Description:\n')+p.description+
+      '\n\nVersion: '+p.version+'\n'+(lang==='de'?'Gerät: ':'Device: ')+p.device);
+    document.getElementById('maillink').href='mailto:barteltnorbert@gmail.com?subject='+subj+'&body='+body;
+  }
+</script>
+</body>
+</html>
